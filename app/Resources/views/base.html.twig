@@ -73,7 +73,7 @@
                                 <a href="#Projects" class="has-arrow"><i class="icon-users"></i><span>Label</span></a>
                                 <ul>
                                     <li><a href="{{ path('admin_artiste_new') }}">Artistes</a></li>
-                                    <li><a href="#">Albums</a></li>
+                                    <li><a href="{{ path('album_new') }}">Albums</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -119,9 +119,9 @@
                             {% if current_page == 'artiste' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des artistes</li>
-                            {% elseif current_page == 'region' %}
+                            {% elseif current_page == 'album' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
-                                <li class="breadcrumb-item active">Gestion des regions</li>
+                                <li class="breadcrumb-item active">Gestion des albums</li>
                             {% elseif current_page == 'district' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des districts</li>

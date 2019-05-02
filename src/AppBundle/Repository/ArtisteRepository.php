@@ -23,4 +23,14 @@ class ArtisteRepository extends \Doctrine\ORM\EntityRepository
                     ->getQuery()->getResult()
             ;
     }
+
+    /**
+     * Liste des artistes pour la selection de l'album
+     */
+    public function liste()
+    {
+        return $this->createQueryBuilder('a')
+                    ->orderBy('a.nom')
+            ;
+    }
 }

@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} :: Gestion des albums{% endblock %}
+{% block body %}
+    <div class="row clearfix">
+        <div class="col-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Liste des albums</h2>
+                    <ul class="header-dropdown">
+                        <li><a href="javascript:void(0);" class="btn btn-info" data-toggle="modal" data-target="#addcontact">Ajouter un nouvel album</a></li>
+                    </ul>
+                </div>
+                <div class="body">
+                    <div class="row">
+                        <div class="col-12">
+                            {% for message in app.flashes('notice') %}
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <i class="fa fa-thumbs-up"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                            {% for message in app.flashes('error') %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <i class="fa fa-exclamation-triangle"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover js-basic-example dataTable table-custom table-striped m-b-0 c_list">
+                            <thead class="thead-dark">
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">ARTISTES</th>
+                                <th class="text-center">ALBUMS</th>
+                                <th class="text-center">STATUTS</th>
+                                <th class="text-center">ACTIONS</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for album in albums %}
+                                <tr>
+                                    <td class="text-right">{{ loop.index }}</td>
+                                    <td class="text">{{ album.artiste.nom }}</td>
+                                    <td class="text-center">{{ album.titre }}</td>
+                                    <td class="text-center">
+                                        {% if album.statut %}
+                                            <span class="text-success">Actif</span>
+                                        {% else %}
+                                            <span class="text-danger">Désactivé</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ path('album_edit', {'slug': album.slug}) }}" title="Modifier les informations"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal animated zoomIn" id="addcontact" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="title" id="defaultModalLabel">Ajouter un nouvel album</h6>
+                </div>
+                {{ form_start(form) }}
+                <div class="modal-body">
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                {{ form_widget(form.artiste) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                {{ form_widget(form.titre) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                {{ form_widget(form.prix) }}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="fancy-checkbox">
+                                    {{ form_widget(form.statut) }}
+                                    <span>Activé</span>
+                                </label>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="ajouter">Ajouter</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/select2.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ absolute_url(asset('assets/bundles/datatablescripts.bundle.js')) }}"></script>
+    <script src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
+    <script src="{{ absolute_url(asset('assets/bundles/mainscripts.bundle.js')) }}"></script>
+    <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/ui/dialogs.js') }}"></script>
+    <script src="{{ asset('assets/vendor/select2/select2.min.js') }}"></script>
+    <script>
+        $('.select2').select2();
+        $(document).ready(function(){
+            $('#ajouter').click(function () {
+                if (document.getElementById('appbundle_album_titre').value !== ''){
+                    //
+                    document.getElementById('ajouter').innerHTML = 'Enregistrement encours ...';
+                    //$(this).attr('visibility', 'hidden')
+                    document.setTimeout(function () {
+                        $(this).attr('disabled', 'disabled')
+                    }, 2);
+                }
+
+            });
+        });
+    </script>
+{% endblock %}

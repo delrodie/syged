@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Albums list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Prix</th>
+                <th>Brut</th>
+                <th>Sticke</th>
+                <th>Distribue</th>
+                <th>Statut</th>
+                <th>Slug</th>
+                <th>Publiepar</th>
+                <th>Modifiepar</th>
+                <th>Publiele</th>
+                <th>Modifiele</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for album in albums %}
+            <tr>
+                <td><a href="{{ path('album_show', { 'id': album.id }) }}">{{ album.id }}</a></td>
+                <td>{{ album.titre }}</td>
+                <td>{{ album.prix }}</td>
+                <td>{{ album.brut }}</td>
+                <td>{{ album.sticke }}</td>
+                <td>{{ album.distribue }}</td>
+                <td>{% if album.statut %}Yes{% else %}No{% endif %}</td>
+                <td>{{ album.slug }}</td>
+                <td>{{ album.publiePar }}</td>
+                <td>{{ album.modifiePar }}</td>
+                <td>{{ album.publieLe }}</td>
+                <td>{{ album.modifieLe }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('album_show', { 'id': album.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('album_edit', { 'id': album.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('album_new') }}">Create a new album</a>
+        </li>
+    </ul>
+{% endblock %}

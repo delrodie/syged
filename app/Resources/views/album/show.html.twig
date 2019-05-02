@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Album</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ album.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ album.titre }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ album.prix }}</td>
+            </tr>
+            <tr>
+                <th>Brut</th>
+                <td>{{ album.brut }}</td>
+            </tr>
+            <tr>
+                <th>Sticke</th>
+                <td>{{ album.sticke }}</td>
+            </tr>
+            <tr>
+                <th>Distribue</th>
+                <td>{{ album.distribue }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{% if album.statut %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ album.slug }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ album.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ album.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ album.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ album.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('album_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('album_edit', { 'id': album.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
