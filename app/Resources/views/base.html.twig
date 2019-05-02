@@ -1,13 +1,178 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="Système de Gestion des Ressources Adultes et de la Formation">
+    <meta name="author" content="ESTHETE, Delrodie AMOIKON">
+    <title>{% block title %}SYGED {% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ absolute_url(asset('assets/vendor/bootstrap/css/bootstrap.min.css')) }}">
+        <link rel="stylesheet" href="{{ absolute_url(asset('assets/vendor/font-awesome/css/font-awesome.min.css')) }}">
+
+
+
+        <link rel="stylesheet" href="{{ absolute_url(asset('assets/css/main.css')) }}">
+        <link rel="stylesheet" href="{{ absolute_url(asset('assets/css/color_skins.css')) }}">
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('assets/images/favicon.ico')) }}" />
+</head>
+<body class="theme-blush">
+<div id="wrapper">
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
+            </div>
+
+            <div class="navbar-brand">
+                <a href="{{ absolute_url(path('homepage')) }}">DREAM MAKER</a>
+            </div>
+
+            <div class="navbar-right">
+                <form id="navbar-search" class="navbar-form search-form">
+                    <input value="" class="form-control" placeholder="Rechercher le chef..." type="text">
+                    <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+                </form>
+
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{{ absolute_url(path('fos_user_security_logout')) }}" class="icon-menu"><i class="icon-login"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="left-sidebar" class="sidebar">
+        <div class="sidebar-scroll">
+            <div class="user-account">
+                <img src="{{ asset('assets/images/avatar.png') }}" class="rounded-circle user-photo" alt="User Profile Picture">
+                <div class="dropdown">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <span>Bienvenue,</span>
+                        <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown">
+                            <strong>{{ app.user.username|title }}</strong>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#project_menu"></a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content p-l-0 p-r-0">
+                <div class="tab-pane animated fadeIn active" id="project_menu">
+                    <nav class="sidebar-nav">
+                        <ul class="main-menu metismenu">
+                            <li><a href="{{ path('homepage') }}"><i class="icon-speedometer"></i><span>Tableau de bord</span></a></li>
+                            <li>
+                                <a href="#Projects" class="has-arrow"><i class="icon-users"></i><span>Label</span></a>
+                                <ul>
+                                    <li><a href="#">Artistes</a></li>
+                                    <li><a href="#">Albums</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#Projects" class="has-arrow"><i class="icon-screen-tablet"></i><span>Distributeur</span></a>
+                                <ul>
+                                    <li><a href="#">Gestion</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#Projects" class="has-arrow"><i class="icon-screen-tablet"></i><span>Distribution</span></a>
+                                <ul>
+                                    <li><a href="#">Distribution</a></li>
+                                    <li><a href="#">Destockage</a></li>
+                                    <li><a href="#">Stickage</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#Projects" class="has-arrow"><i class="icon-screen-tablet"></i><span>Comptabilité</span></a>
+                                <ul>
+                                    <li><a href="#">Recouvrement</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#Clients" class="has-arrow"><i class="icon-lock"></i><span>Sécurité</span></a>
+                                <ul>
+                                    <li><a href="#">Users</a></li>
+                                    <li><a href="#">Gestionnaires</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left" aria-hidden="true"></i> Menu</a> </h2>
+                        <ul class="breadcrumb">
+                            {% if current_page == 'typeFormation' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des Types de formation</li>
+                            {% elseif current_page == 'region' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des regions</li>
+                            {% elseif current_page == 'district' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des districts</li>
+                            {% elseif current_page == 'certificat' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des certificats</li>
+                            {% elseif current_page == 'chef' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des chefs</li>
+                            {% elseif current_page == 'formation' %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
+                                <li class="breadcrumb-item active">Gestion des formations</li>
+                            {% else %}
+                                <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Tableau de bord</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15 text-center">
+                                <small><strong>Stock non stické</strong></small>
+                                <h6 class="mb-0 mt-1"><i class="icon-users"></i> 1.784</h6>
+                            </div>
+                        </div>
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15 text-center">
+                                <small><strong>Stock stické</strong></small>
+                                <h6 class="mb-0 mt-1"><i class="icon-users"></i> 1.784</h6>
+                            </div>
+                        </div>
+                        <div class="bh_chart hidden-xs">
+                            <div class="float-left m-r-15 text-center">
+                                <small><strong>En dépôt</strong></small>
+                                <h6 class="mb-0 mt-1"><i class="icon-users"></i> 1.784</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {% block body %}{% endblock %}
+
+        </div>
+    </div>
+</div>
+{% block javascripts %}
+    <script src="{{ absolute_url(asset('assets/bundles/libscripts.bundle.js')) }}"></script>
+    <script src="{{ absolute_url(asset('assets/bundles/vendorscripts.bundle.js')) }}"></script>
+
+{% endblock %}
+</body>
 </html>
