@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Artistes list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Statut</th>
+                <th>Albums</th>
+                <th>Slug</th>
+                <th>Publiepar</th>
+                <th>Modifiepar</th>
+                <th>Publiele</th>
+                <th>Modifiele</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artiste in artistes %}
+            <tr>
+                <td><a href="{{ path('admin_artiste_show', { 'id': artiste.id }) }}">{{ artiste.id }}</a></td>
+                <td>{{ artiste.nom }}</td>
+                <td>{% if artiste.statut %}Yes{% else %}No{% endif %}</td>
+                <td>{{ artiste.albums }}</td>
+                <td>{{ artiste.slug }}</td>
+                <td>{{ artiste.publiePar }}</td>
+                <td>{{ artiste.modifiePar }}</td>
+                <td>{{ artiste.publieLe }}</td>
+                <td>{{ artiste.modifieLe }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_artiste_show', { 'id': artiste.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_artiste_edit', { 'id': artiste.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_artiste_new') }}">Create a new artiste</a>
+        </li>
+    </ul>
+{% endblock %}

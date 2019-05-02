@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Artiste</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ artiste.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ artiste.nom }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{% if artiste.statut %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Albums</th>
+                <td>{{ artiste.albums }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ artiste.slug }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ artiste.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ artiste.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ artiste.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ artiste.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_artiste_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_artiste_edit', { 'id': artiste.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}
