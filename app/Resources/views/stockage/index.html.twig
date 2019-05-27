@@ -6,9 +6,6 @@
             <div class="card">
                 <div class="header">
                     <h2>Liste des albums</h2>
-                    <ul class="header-dropdown">
-                        <li><a href="javascript:void(0);" class="btn btn-info" data-toggle="modal" data-target="#addcontact">Ajouter un nouvel album</a></li>
-                    </ul>
                 </div>
                 <div class="body">
                     <div class="row">
@@ -60,7 +57,7 @@
                                         {% endif %}
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ path('album_edit', {'slug': album.slug}) }}" title="Modifier les informations"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ path('stockage_new', {'artiste': album.artiste.id, 'album': album.slug}) }}" title="Stocker"><i class="fa fa-download"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -68,50 +65,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal animated zoomIn" id="addcontact" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="title" id="defaultModalLabel">Ajouter un nouvel album</h6>
-                </div>
-                {{ form_start(form) }}
-                <div class="modal-body">
-                    <div class="row clearfix">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                {{ form_widget(form.artiste) }}
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                {{ form_widget(form.titre) }}
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                {{ form_widget(form.prix) }}
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label class="fancy-checkbox">
-                                    {{ form_widget(form.statut) }}
-                                    <span>Activé</span>
-                                </label>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="ajouter">Ajouter</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                </div>
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
@@ -132,20 +85,5 @@
     <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="{{ asset('assets/js/pages/ui/dialogs.js') }}"></script>
     <script src="{{ asset('assets/vendor/select2/select2.min.js') }}"></script>
-    <script>
-        $('.select2').select2();
-        $(document).ready(function(){
-            $('#ajouter').click(function () {
-                if (document.getElementById('appbundle_album_titre').value !== ''){
-                    //
-                    document.getElementById('ajouter').innerHTML = 'Enregistrement encours ...';
-                    //$(this).attr('visibility', 'hidden')
-                    document.setTimeout(function () {
-                        $(this).attr('disabled', 'disabled')
-                    }, 2);
-                }
-
-            });
-        });
-    </script>
+    
 {% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Stockage</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ stockage.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ stockage.date }}</td>
+            </tr>
+            <tr>
+                <th>Qte</th>
+                <td>{{ stockage.qte }}</td>
+            </tr>
+            <tr>
+                <th>Stockinitial</th>
+                <td>{{ stockage.stockinitial }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ stockage.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ stockage.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ stockage.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ stockage.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('stockage_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('stockage_edit', { 'id': stockage.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

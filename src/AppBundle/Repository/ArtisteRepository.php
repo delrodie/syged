@@ -30,7 +30,19 @@ class ArtisteRepository extends \Doctrine\ORM\EntityRepository
     public function liste()
     {
         return $this->createQueryBuilder('a')
+                    ->where('a.statut = 1')
                     ->orderBy('a.nom')
             ;
     }
+
+    /**
+     * Selection de l'Artiste
+     */
+     public function findArtiste($artiste)
+     {
+       return $this->createQueryBuilder('a')
+                   ->where('a.id = :artiste')
+                   ->setParameter('artiste', $artiste)
+            ;
+     }
 }

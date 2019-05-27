@@ -38,7 +38,7 @@ class AlbumType extends AbstractType
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

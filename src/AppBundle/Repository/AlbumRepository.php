@@ -31,4 +31,15 @@ class AlbumRepository extends \Doctrine\ORM\EntityRepository
                     ->orderBy('a.titre', 'ASC')
             ;
     }
+
+    /**
+     * Selection de l'album
+     */
+     public function findAlbums($album)
+     {
+       return $this->createQueryBuilder('a')
+                   ->where('a.slug = :album')
+                   ->setParameter('album', $album)
+            ;
+     }
 }

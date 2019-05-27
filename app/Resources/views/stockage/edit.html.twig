@@ -7,7 +7,7 @@
                 <div class="header">
                     <h2>Liste des albums</h2>
                     <ul class="header-dropdown">
-                        <li><a href="javascript:void(0);" class="btn btn-info" data-toggle="modal" data-target="#addcontact">Ajouter un nouvel album</a></li>
+                        <li><a href="javascript:void(0);" class="btn btn-danger" data-toggle="modal" data-target="#addcontact">Modifier l'approvisionnement de l'album {{ album.titre }} de {{ album.artiste.nom }}</a></li>
                     </ul>
                 </div>
                 <div class="body">
@@ -32,35 +32,30 @@
                             <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">ID</th>
+                                <th class="text-center">DATES</th>
                                 <th class="text-center">ARTISTES</th>
                                 <th class="text-center">ALBUMS</th>
-                                <th class="text-center">PRIX</th>
-                                <th class="text-center">NON STICKES</th>
-                                <th class="text-center">STICKES</th>
-                                <th class="text-center">DISTRIBUES</th>
-                                <th class="text-center">STATUTS</th>
+                                <th class="text-center">QUANTITE</th>
+                                <th class="text-center">STOCKSINITIAUX</th>
+                                <th class="text-center">STOCK FINAUX</th>
                                 <th class="text-center">ACTIONS</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for album in albums %}
+                            {% set final = 0 %}
+                            {% for stockage in stockages %}
+                                {% set final = final + stockage.qte %}
                                 <tr>
                                     <td class="text-right">{{ loop.index }}</td>
-                                    <td class="text">{{ album.artiste.nom }}</td>
-                                    <td class="text-center">{{ album.titre }}</td>
-                                    <td class="text-center">{{ album.prix|number_format(0,'','.') }}</td>
-                                    <td class="text-center">{{ album.brut|number_format(0,'','.') }}</td>
-                                    <td class="text-center">{{ album.sticke|number_format(0,'','.') }}</td>
-                                    <td class="text-center">{{ album.distribue|number_format(0,'','.') }}</td>
+                                    <td class="text">{{ stockage.date|date('d-m-Y') }}</td>
+                                    <td class="text-center">{{ stockage.album.artiste.nom }}</td>
+                                    <td class="text-center">{{ stockage.album.titre }}</td>
+                                    <td class="text-center">{{ stockage.qte|number_format(0,'','.') }}</td>
+                                    <td class="text-center">{{ stockage.stockinitial|number_format(0,'','.') }}</td>
+                                    <td class="text-center">{{ final|number_format(0,'','.') }}</td>
                                     <td class="text-center">
-                                        {% if album.statut %}
-                                            <span class="text-success">Actif</span>
-                                        {% else %}
-                                            <span class="text-danger">Désactivé</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ path('album_edit', {'slug': album.slug}) }}" title="Modifier les informations"><i class="fa fa-edit"></i></a>
+                                        <a href="{{ path('stockage_edit', {'id': stockage.id}) }}" title="Modifier les informations"><i class="fa fa-edit"></i></a>
+
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -75,43 +70,43 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h6 class="title" id="defaultModalLabel">Ajouter un nouvel album</h6>
+                    <h6 class="title" id="defaultModalLabel">Approvisionnement le stock de l'album {{ album.titre }}</h6>
                 </div>
-                {{ form_start(form) }}
+                {{ form_start(edit_form) }}
                 <div class="modal-body">
                     <div class="row clearfix">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-group">
-                                {{ form_widget(form.artiste) }}
+                                {{ form_widget(edit_form.artiste) }}
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                {{ form_widget(form.titre) }}
+                                {{ form_widget(edit_form.album) }}
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                {{ form_widget(form.prix) }}
+                                {{ form_widget(edit_form.date) }}
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="fancy-checkbox">
-                                    {{ form_widget(form.statut) }}
-                                    <span>Activé</span>
-                                </label>
-
+                                {{ form_widget(edit_form.qte) }}
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="ajouter">Ajouter</button>
+                    <input type="hidden" name="stockInitial" value="{{ stockage.qte }}">
+                    <button type="submit" class="btn btn-primary" id="ajouter">Modifier</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    {{ form_end(edit_form) }}
+                    {{ form_start(delete_form) }}
+                    <input type="submit" value="Supprimer" class="btn btn-danger">
+                    {{ form_end(delete_form) }}
                 </div>
-                {{ form_end(form) }}
             </div>
         </div>
     </div>
@@ -122,6 +117,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/sweetalert/sweetalert.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
 {% endblock %}
 
 {% block javascripts %}
@@ -132,13 +128,17 @@
     <script src="{{ asset('assets/js/pages/tables/jquery-datatable.js') }}"></script>
     <script src="{{ asset('assets/js/pages/ui/dialogs.js') }}"></script>
     <script src="{{ asset('assets/vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
         $('.select2').select2();
+        $('.inline-datepicker').datepicker({
+            todayHighlight: true
+        });
         $(document).ready(function(){
             $('#ajouter').click(function () {
-                if (document.getElementById('appbundle_album_titre').value !== ''){
+                if (document.getElementById('appbundle_stockage_qte').value !== ''){
                     //
-                    document.getElementById('ajouter').innerHTML = 'Enregistrement encours ...';
+                    document.getElementById('ajouter').innerHTML = 'Modfication encours ...';
                     //$(this).attr('visibility', 'hidden')
                     document.setTimeout(function () {
                         $(this).attr('disabled', 'disabled')
