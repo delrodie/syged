@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Controller\AlbumController;
+use AppBundle\Controller\StickageController;
 
 /**
  * AlbumRepository
@@ -20,6 +21,15 @@ class AlbumRepository extends \Doctrine\ORM\EntityRepository
     public function findListASC()
     {
         return $this->liste()->getQuery()->getResult();
+    }
+
+    /**
+     * liste des albums a sticker
+     * @uses StickageController::indexAction()
+     */
+    public function findListToStick()
+    {
+        return $this->liste()->where('a.brut <> 0')->orWhere('a.sticke <> 0')->getQuery()->getResult();
     }
 
     /**

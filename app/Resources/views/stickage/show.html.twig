@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Stickage</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ stickage.id }}</td>
+            </tr>
+            <tr>
+                <th>Qte</th>
+                <td>{{ stickage.qte }}</td>
+            </tr>
+            <tr>
+                <th>Stockinitial</th>
+                <td>{{ stickage.stockinitial }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ stickage.date }}</td>
+            </tr>
+            <tr>
+                <th>Publiepar</th>
+                <td>{{ stickage.publiePar }}</td>
+            </tr>
+            <tr>
+                <th>Modifiepar</th>
+                <td>{{ stickage.modifiePar }}</td>
+            </tr>
+            <tr>
+                <th>Publiele</th>
+                <td>{{ stickage.publieLe }}</td>
+            </tr>
+            <tr>
+                <th>Modifiele</th>
+                <td>{{ stickage.modifieLe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('stickage_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('stickage_edit', { 'id': stickage.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

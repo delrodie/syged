@@ -87,7 +87,7 @@
                                 <ul>
                                     <li><a href="#">Distribution</a></li>
                                     <li><a href="#">Destockage</a></li>
-                                    <li><a href="#">Stickage</a></li>
+                                    <li><a href="{{ absolute_url(path('stickage_index')) }}">Stickage</a></li>
                                     <li><a href="{{ absolute_url(path('stockage_index'))}}">Stockage</a></li>
                                 </ul>
                             </li>
@@ -123,9 +123,9 @@
                             {% elseif current_page == 'album' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des albums</li>
-                            {% elseif current_page == 'district' %}
+                            {% elseif current_page == 'stickage' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
-                                <li class="breadcrumb-item active">Gestion des districts</li>
+                                <li class="breadcrumb-item active">Gestion des albums à sticker</li>
                             {% elseif current_page == 'certificat' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des certificats</li>
