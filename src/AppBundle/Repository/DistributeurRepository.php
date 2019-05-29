@@ -24,4 +24,12 @@ class DistributeurRepository extends \Doctrine\ORM\EntityRepository
                     ->getQuery()->getResult()
             ;
     }
+
+    /**
+     * Liste des distributeurs utilisé dans la vente (VenteType)
+     */
+    public function liste()
+    {
+        return $this->createQueryBuilder('d')->orderBy('d.nom', 'ASC');
+    }
 }

@@ -26,4 +26,15 @@ class DistributeurUtilities
             return true;
         }
     }
+
+    /**
+     * Mise a jour du credit du distributeur
+     */
+    public function addCredit($distributueur, $montant)
+    {
+        $distributueur = $this->em->getRepository("AppBundle:Distributeur")->findOneBy(['id'=>$distributueur]);
+        $distributueur->setCredit($distributueur->getCredit() + $montant);
+        $this->em->flush();
+        return true;
+    }
 }

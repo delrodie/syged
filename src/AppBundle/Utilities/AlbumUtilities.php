@@ -97,4 +97,16 @@ class AlbumUtilities
         $this->em->flush();
         return true;
     }
+
+    /**
+     * Vente de l'album
+     */
+    public function vente($album, $qte)
+    {
+       $album = $this->em->getRepository("AppBundle:Album")->findOneBy(['slug'=>$album]);
+       $album->setSticke($album->getSticke() - $qte);
+       $album->setDistribue($album->getDistribue() + $qte);
+       $this->em->flush();
+       return true;
+    }
 }

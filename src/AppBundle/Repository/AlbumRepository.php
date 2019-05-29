@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use AppBundle\Controller\AlbumController;
 use AppBundle\Controller\StickageController;
+use AppBundle\Controller\VenteController;
 
 /**
  * AlbumRepository
@@ -30,6 +31,15 @@ class AlbumRepository extends \Doctrine\ORM\EntityRepository
     public function findListToStick()
     {
         return $this->liste()->where('a.brut <> 0')->orWhere('a.sticke <> 0')->getQuery()->getResult();
+    }
+
+    /**
+     * Liste des albums à vendre
+     * @uses VenteController::indexAction()
+     */
+    public function findListToSell()
+    {
+        return $this->liste()->where('a.sticke <> 0')->getQuery()->getResult();
     }
 
     /**

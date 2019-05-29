@@ -93,7 +93,7 @@
                             <li>
                                 <a href="#Projects" class="has-arrow"><i class="icon-screen-tablet"></i><span>Comptabilité</span></a>
                                 <ul>
-                                    <li><a href="#">Vente</a></li>
+                                    <li><a href="{{ absolute_url(path('vente_index')) }}">Vente</a></li>
                                     <li><a href="#">Recouvrement</a></li>
                                 </ul>
                             </li>
@@ -129,9 +129,9 @@
                             {% elseif current_page == 'distributeur' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des distributeurs</li>
-                            {% elseif current_page == 'chef' %}
+                            {% elseif current_page == 'distribution' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
-                                <li class="breadcrumb-item active">Gestion des chefs</li>
+                                <li class="breadcrumb-item active">Gestion des ventes</li>
                             {% elseif current_page == 'formation' %}
                                 <li class="breadcrumb-item"><a href="{{ path('homepage') }}"><i class="icon-home"></i> Accueil</a></li>
                                 <li class="breadcrumb-item active">Gestion des formations</li>
