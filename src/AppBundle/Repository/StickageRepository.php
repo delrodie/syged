@@ -21,7 +21,6 @@ class StickageRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('s')
                     ->innerJoin('s.album', 'a')
                     ->where('a.slug = :album')
-                    //->orWhere('')
                     ->andWhere('a.brut <> 0 OR a.sticke <> 0')
                     ->setParameter('album', $album)
                     ->getQuery()->getResult()

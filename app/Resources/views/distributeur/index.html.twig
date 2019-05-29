@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Distributeurs list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Situation</th>
+                <th>Contact</th>
+                <th>Structure</th>
+                <th>Statut</th>
+                <th>Slug</th>
+                <th>Publiepar</th>
+                <th>Modifiepar</th>
+                <th>Publiele</th>
+                <th>Modifiele</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for distributeur in distributeurs %}
+            <tr>
+                <td><a href="{{ path('distributeur_show', { 'id': distributeur.id }) }}">{{ distributeur.id }}</a></td>
+                <td>{{ distributeur.nom }}</td>
+                <td>{{ distributeur.situation }}</td>
+                <td>{{ distributeur.contact }}</td>
+                <td>{{ distributeur.structure }}</td>
+                <td>{% if distributeur.statut %}Yes{% else %}No{% endif %}</td>
+                <td>{{ distributeur.slug }}</td>
+                <td>{{ distributeur.publiePar }}</td>
+                <td>{{ distributeur.modifiePar }}</td>
+                <td>{{ distributeur.publieLe }}</td>
+                <td>{{ distributeur.modifieLe }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('distributeur_show', { 'id': distributeur.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('distributeur_edit', { 'id': distributeur.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('distributeur_new') }}">Create a new distributeur</a>
+        </li>
+    </ul>
+{% endblock %}
