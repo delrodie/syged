@@ -106,22 +106,45 @@ class VenteController extends Controller
      * @Route("/{id}/edit", name="vente_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, Vente $vente)
+    public function editAction(Request $request, Vente $vente, VenteUtilities $venteUtilities, AlbumUtilities $albumUtilities, DistributeurUtilities $distributeurUtilities)
     {
         $deleteForm = $this->createDeleteForm($vente);
-        $editForm = $this->createForm('AppBundle\Form\VenteType', $vente);
+        $editForm = $this->createForm('AppBundle\Form\VenteType', $vente, ['album'=>$vente->getAlbum()->getSlug()]);
         $editForm->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            // Vérification si la qte a vendre est suffisante(adition du nombre sticke à la qte initial )
+            $album = $em->getRepository('AppBundle:Album')->findOneBy(['slug'=>$vente->getAlbum()->getSlug()]);
+            $qteInitial = $request->get('qteInitial');
+            $mtInitial = $request->get('mtInitial');
+            if ($album->getSticke() < $vente->getQte()){//dump($vente);die();
+                $this->addFlash('error', "Echec de vente car la quantité à vendre est suppérieure à la quantité stickée.");
+                return $this->redirectToRoute('vente_new',['album'=>$album->getSlug()]);
+            }
+            // Montant total de la vente
+            $vente->setMontant($venteUtilities->montant($vente->getQte(), $vente->getPrix()));
+            $em->flush();
+            // Mise a jour de la table album (sticke et distribution)
+            $albumUtilities->modifVente($vente->getAlbum()->getSlug(), $qteInitial, $vente->getQte());
+            // Mise a jour de la table Distributeur (montant)
+            $distributeurUtilities->updateCredit($vente->getDistributeur()->getId(), $mtInitial, $vente->getMontant());
 
-            return $this->redirectToRoute('vente_edit', array('id' => $vente->getId()));
+            $this->addFlash('notice', "Modification de le vente effectuée avec succès");
+            return $this->redirectToRoute('vente_new', array('album' => $vente->getAlbum()->getSlug()));
+
         }
+        // Liste des albums a vendre
+        $album = $em->getRepository('AppBundle:Album')->findOneBy(['slug'=>$vente->getAlbum()->getSlug()]);
+        $ventes = $em->getRepository('AppBundle:Vente')->findBy(['album'=>$album->getId()]);
 
         return $this->render('vente/edit.html.twig', array(
             'vente' => $vente,
+            'ventes' => $ventes,
+            'album' => $album,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'current_page'=> 'distribution'
         ));
     }
 

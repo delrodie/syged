@@ -109,4 +109,33 @@ class AlbumUtilities
        $this->em->flush();
        return true;
     }
+
+    /**
+     * Modification de la vente
+     */
+    public function modifVente($albumID, $qteInitial, $qte)
+    {
+        $album = $this->em->getRepository('AppBundle:Album')->findOneBy(['slug'=>$albumID]);
+        if ($this->supVente($albumID, $qteInitial)){
+            $album->setSticke($album->getSticke() - $qte);
+            $album->setDistribue($album->getDistribue() + $qte);
+            $this->em->flush();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Suppression de la vente
+     */
+    public function supVente($album, $qteInitial)
+    {
+        $album = $this->em->getRepository('AppBundle:Album')->findOneBy(['slug'=>$album]);
+        // Deduction de la quantité totale la quantité distribuée de la quantité initiale vendue
+        $album->setSticke($album->getSticke() + $qteInitial);
+        $album->setDistribue($album->getDistribue() - $qteInitial);
+        $this->em->flush();
+        return true;
+    }
 }

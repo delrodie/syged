@@ -110,6 +110,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" name="qteInitial" value="{{ vente.qte }}">
+                    <input type="hidden" name="mtInitial" value="{{ vente.montant }}">
                     <button type="submit" class="btn btn-primary" id="ajouter">Modifier</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 </div>
@@ -145,7 +147,7 @@
             $('#ajouter').click(function () {
                 if (document.getElementById('appbundle_vente_qte').value !== ''){
                     //
-                    document.getElementById('ajouter').innerHTML = 'Enregistrement encours ...';
+                    document.getElementById('ajouter').innerHTML = 'Modification encours ...';
                     //$(this).attr('visibility', 'hidden')
                     document.setTimeout(function () {
                         $(this).attr('disabled', 'disabled')

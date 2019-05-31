@@ -32,8 +32,35 @@ class DistributeurUtilities
      */
     public function addCredit($distributueur, $montant)
     {
-        $distributueur = $this->em->getRepository("AppBundle:Distributeur")->findOneBy(['id'=>$distributueur]);
-        $distributueur->setCredit($distributueur->getCredit() + $montant);
+        $distributeur = $this->em->getRepository("AppBundle:Distributeur")->findOneBy(['id'=>$distributueur]);
+        $distributeur->setCredit($distributeur->getCredit() + $montant);
+        $this->em->flush();
+        return true;
+    }
+
+    /**
+     * Modification de la vente
+     */
+    public function updateCredit($distributeurID, $mtInitial, $montant)
+    {
+        $distributeur = $this->em->getRepository('AppBundle:Distributeur')->findOneBy(['id'=>$distributeurID]);
+        // Deduction de l'ancien montant
+        if ($this->deleteCredit($distributeurID, $mtInitial)){
+            $distributeur->setCredit($distributeur->getCredit() + $montant);
+            $this->em->flush();
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * Suppresion de la vente
+     */
+    public function deleteCredit($distributeur, $mtInitial)
+    {
+        $distributeur = $this->em->getRepository('AppBundle:Distributeur')->findOneBy(['id'=>$distributeur]);
+        $distributeur->setCredit($distributeur->getCredit() - $mtInitial);
         $this->em->flush();
         return true;
     }
