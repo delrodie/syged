@@ -60,21 +60,21 @@ class Distributeur
     /**
      * @var integer
      *
-     * @ORM\Column(name="credit", type="integer", nullable=false, options={"default": 0})
+     * @ORM\Column(name="credit", type="integer", nullable=true, options={"default": 0})
      */
     private $credit;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="paye", type="integer", nullable=false, options={"default": 0})
+     * @ORM\Column(name="paye", type="integer", nullable=true, options={"default": 0})
      */
     private $paye;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reste", type="integer", nullable=false, options={"default": 0})
+     * @ORM\Column(name="reste", type="integer", nullable=true, options={"default": 0})
      */
     private $reste;
 
