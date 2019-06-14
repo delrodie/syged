@@ -18,4 +18,14 @@ class DefaultController extends Controller
             'current_page' => 'home',
         ]);
     }
+
+    /**
+     * @Route("/template/bon-commande", name="bon_commande")
+     */
+    public function commandeAction()
+    {
+        return $this->render('template/commande.html.twig',[
+            'current_page' => 'home'
+        ]);
+    }
 }
